@@ -1,25 +1,35 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHashHistory } from "vue-router";
 
-const routes = [
+import Layout from "@/views/layout";
+
+import Login from "@/views/login";
+const constantRoutes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    component: Layout,
+    text: "首页概况",
+    icon: "el-icon-s-help",
+    children: [
+      {
+        path: "",
+        component: () => import("@/views/home"),
+        text: "统计分析",
+      },
+      {
+        path: "xuqiu",
+        component: () => import("@/views/home/xuqiu"),
+        text: "需求",
+      },
+    ],
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+  { path: "/login", component: Login, hidden: true },
+  // { path: "*", redirect: "/", hidden: true },
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  history: createWebHashHistory(),
+  routes: constantRoutes,
+});
+export { constantRoutes };
 
-export default router
+export default router;
